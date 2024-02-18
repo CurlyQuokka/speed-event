@@ -42,17 +42,27 @@ func prepareParticipants(p *[]int) int {
 	return rounds
 }
 
-func generateRounds(participants *[]int) {
+type pair struct {
+	p1, p2 int
+}
+
+func (p *pair) isEqual(v *pair) bool {
+	return p.p1 == v.p1 && p.p2 == v.p2
+}
+
+func generateRounds(participants *[]int) *[]pair {
 	rounds := prepareParticipants(participants)
 	n := len(*participants)
 
 	half := (n / 2)
 
+	pairs := &[]pair{}
+
 	for i := 0; i < rounds; i++ {
 		fmt.Printf("Round: %d \n", i+1)
 		for j := 0; j < half; j++ {
 			fmt.Printf("%d - %d\n", (*participants)[j], (*participants)[j+half])
-
+			*pairs = append(*pairs, pair{p1: (*participants)[j], p2: (*participants)[j+half]})
 		}
 		if n == 2 {
 			break
@@ -67,4 +77,6 @@ func generateRounds(participants *[]int) {
 
 		fmt.Println()
 	}
+
+	return pairs
 }
